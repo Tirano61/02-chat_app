@@ -139,4 +139,13 @@ List<ChatMessage> _mensajes =[
 
 
 
+  @override
+  void dispose() {
+    //TODO: off del socket
+    for(ChatMessage message in _mensajes){
+      message.animationController.dispose();
+    }
+    super.dispose();
+  }
+
 }
