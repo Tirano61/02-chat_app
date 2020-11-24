@@ -1,5 +1,6 @@
 import 'package:chat_app/models/usuario.dart';
 import 'package:chat_app/services/auth_services.dart';
+import 'package:chat_app/services/socket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -26,17 +27,18 @@ class _UsuariosPageState extends State<UsuariosPage> {
   Widget build(BuildContext context) {
 
     final authService = Provider.of<AuthService>(context);
-
+    final socketService = Provider.of<SocketService>(context);
     return Scaffold(
       appBar:  AppBar(
-        title: Text(authService.usuario.nombre,style: TextStyle(color: Colors.black45),),
+        title: Text(authService.usuario.nombre, style: TextStyle(color: Colors.black45),),
         elevation: 2,
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(Icons.exit_to_app,color: Colors.blue,), 
           onPressed: (){
-            AuthService.deleteToken();
+            socketService.disconnect();
             Navigator.pushReplacementNamed(context, 'login');
+            AuthService.deleteToken();
           }),
         actions: [
           Container(
